@@ -12,4 +12,4 @@
 - Administrate admin dashboard
 - Email summary to managers for approvalNeeds to be documented if employee did not log overtime
 ## UI:
-Bootstrap -> formatting
+- Bootstrap -> formatting
