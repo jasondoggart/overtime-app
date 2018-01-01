@@ -13,3 +13,6 @@
 - Email summary to managers for approvalNeeds to be documented if employee did not log overtime
 ## UI:
 - Bootstrap -> formatting
+
+## Refactor TODOS:
+- Refactor user association integration test in post_spec
