@@ -80,4 +80,14 @@ describe 'navigate' do
       expect(page).to have_content("Edited Content")
     end
   end
+
+  describe 'deletion' do
+    it 'can be deleted' do
+      @post = FactoryBot.create(:post)
+      visit posts_path
+
+      click_link("delete_post_#{@post.id}")
+      expect(page.status_code).to eq(200)
+    end
+  end
 end
