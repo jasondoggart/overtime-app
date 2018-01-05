@@ -8,6 +8,7 @@ FactoryBot.define do
     factory :second_post, class: Post do
         date Date.yesterday
         rationale  "Some content"
+
         user
       end
 end
