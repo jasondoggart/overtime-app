@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 describe 'navigate' do
+  let(:user) { FactoryBot.create(:user) }
+  let(:post) do
+    Post.create(date: Date.today, rationale: "Rationale", user_id: user.id)
+  end
   before do
-    @user = FactoryBot.create(:user)
-    login_as(@user, :scope => :user)
+    login_as(user, :scope => :user)
   end
 
   describe 'index' do
@@ -26,8 +29,6 @@ describe 'navigate' do
     end
 
     it 'has a scope so that users can only see their own posts' do
-      post1 = Post.create(date: Date.today, rationale: "asdf", user: @user)
-      post2 = Post.create(date: Date.today, rationale: "asdf", user: @user)
       other_user = User.create(first_name: "Non", last_name: "Authorized", email: "nonauth@nope.com", password: "asdfasdf", password_confirmation: "asdfasdf")
       post_from_other_user = Post.create(date: Date.today, rationale: "This should not be seen", user: other_user)
 
@@ -66,17 +67,14 @@ describe 'navigate' do
       fill_in 'post[rationale]', with: "User Association"
       click_on "Save"
 
-      expect(@user.posts.last.rationale).to eq("User Association")
+      expect(user.posts.last.rationale).to eq("User Association")
     end
   end
 
   describe 'edit' do
-    before do
-      @post = Post.create(date: Date.today, rationale: "asdf", user: @user)
-    end
 
     it 'can be edited' do
-      visit edit_post_path(@post)
+      visit edit_post_path(post)
 
       fill_in 'post[date]', with: Date.today
       fill_in 'post[rationale]', with: "Edited Content"
@@ -90,18 +88,22 @@ describe 'navigate' do
       non_authorized_user = FactoryBot.create(:non_authorized_user)
       login_as(non_authorized_user, :scope => :user)
 
-      visit edit_post_path(@post)
+      visit edit_post_path(post)
       expect(current_path).to eq(root_path)
     end
   end
 
   describe 'deletion' do
     it 'can be deleted' do
-      @post = FactoryBot.create(:post)
-      @post.update(user: @user)
+      logout(:user)
+
+      delete_user = FactoryBot.create(:user)
+      login_as(delete_user, :scope => :user)
+
+      post_to_delete = Post.create(date: Date.today, rationale: "asdf", user: delete_user)
       visit posts_path
 
-      click_link("delete_post_#{@post.id}")
+      click_link("delete_post_#{post_to_delete.id}")
       expect(page.status_code).to eq(200)
     end
   end
