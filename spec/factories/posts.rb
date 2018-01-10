@@ -6,9 +6,14 @@ FactoryBot.define do
     end
 
     factory :second_post, class: Post do
-        date Date.yesterday
-        rationale  "Some content"
+      date Date.yesterday
+      rationale  "Some content"
+      user
+    end
 
-        user
-      end
+    factory :post_from_other_user, class: Post do
+      date Date.yesterday
+      rationale "Some additional rationale"
+      non_authorized_user
+    end
 end
