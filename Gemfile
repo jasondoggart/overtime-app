@@ -40,3 +40,4 @@ gem 'administrate', '~> 0.8.1'
 gem 'bourbon', '~> 4.3', '>= 4.3.4'
 gem 'pundit', '~> 1.1'
 gem 'twilio-ruby', '~> 5.6'
+gem 'dotenv-rails', '~> 2.2', '>= 2.2.1', :groups => [:development, :test]
